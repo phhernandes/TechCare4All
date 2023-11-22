@@ -1,20 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// Importa as bibliotecas necessárias do React Navigation e as telas correspondentes
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import PatientRegistrationScreen from './screens/PatientRegistrationScreen';
+import MedicationRegistrationScreen from './screens/MedicationRegistrationScreen';
+import TrackingScreen from './screens/TrackingScreen';
 
-export default function App() {
+// Cria instâncias dos navegadores de guias e pilha
+const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+// Componente para a navegação da pilha relacionada aos pacientes
+const PatientStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="Cadastro de Pacientes" component={PatientRegistrationScreen} />
+  </Stack.Navigator>
+);
+
+// Componente para a navegação da pilha relacionada aos medicamentos
+const MedicationStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="Cadastro de Medicamento" component={MedicationRegistrationScreen} />
+  </Stack.Navigator>
+);
+
+// Componente principal que contém a navegação em guias
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      {/* Guia de navegação inferior (bottom tabs) */}
+      <Tab.Navigator>
+        {/* Cada guia possui um nome e é associada a um componente de navegação específico */}
+        <Tab.Screen name="Pacientes" component={PatientStack} />
+        <Tab.Screen name="Medicamentos" component={MedicationStack} />
+        <Tab.Screen name="Acompanhamento" component={TrackingScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
